@@ -35,27 +35,26 @@ namespace DskMapper
         {
             Icon = Resources.Scp_All;
 
-            if (scpProxy.Load())
+            scpProxy.Start();
+
+            m_Selected = m_Active = scpProxy.ActiveProfile;
+
+            cbProfile.Items.Clear();
+            cbProfile.Items.AddRange(scpProxy.Mapper.Profiles);
+
+            try
             {
-                m_Selected = m_Active = scpProxy.Active;
-
-                cbProfile.Items.Clear();
-                cbProfile.Items.AddRange(scpProxy.Mapper.Profiles);
-
-                try
-                {
-                    cbProfile.SelectedItem = Config.Profile;
-                }
-                catch
-                {
-                    cbProfile.SelectedItem = m_Active;
-                }
+                cbProfile.SelectedItem = Config.Profile;
+            }
+            catch
+            {
+                cbProfile.SelectedItem = m_Active;
             }
 
-            scpGps.Pad = (DsPadId) cbPad.SelectedIndex;
+            scpGps.Pad = (DsPadId)cbPad.SelectedIndex;
 
-            scpGps.ScaleX = tbMouseX.Value*(cbXInverted.Checked ? -1 : +1);
-            scpGps.ScaleY = tbMouseY.Value*(cbYInverted.Checked ? -1 : +1);
+            scpGps.ScaleX = tbMouseX.Value * (cbXInverted.Checked ? -1 : +1);
+            scpGps.ScaleY = tbMouseY.Value * (cbYInverted.Checked ? -1 : +1);
             scpGps.Threshold = tbThreshold.Value;
 
             if (cbAutoStart.Checked) btnStart_Click(this, e);
@@ -124,13 +123,13 @@ namespace DskMapper
 
         protected void cbPad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            scpGps.Pad = (DsPadId) cbPad.SelectedIndex;
+            scpGps.Pad = (DsPadId)cbPad.SelectedIndex;
             Config.Pad = cbPad.SelectedIndex;
         }
 
         protected void btnStart_Click(object sender, EventArgs e)
         {
-            if (scpProxy.Enabled && scpProxy.Start())
+            if (scpProxy.IsNativeFeedAvailable)
             {
                 cbPad.Enabled = cbProfile.Enabled = false;
 
@@ -174,85 +173,85 @@ namespace DskMapper
 
         protected void Button_Enter(object sender, EventArgs e)
         {
-            ThemeUtil.UpdateFocus(((Button) sender).Handle);
+            ThemeUtil.UpdateFocus(((Button)sender).Handle);
         }
 
         protected void TrackBar_Capture(object sender, EventArgs e)
         {
-            ThemeUtil.UpdateFocus(((TrackBar) sender).Handle);
+            ThemeUtil.UpdateFocus(((TrackBar)sender).Handle);
         }
     }
 
-    [SettingsProvider(typeof (RegistryProvider))]
+    [SettingsProvider(typeof(RegistryProvider))]
     public class RegistrySettings : ApplicationSettingsBase
     {
         [UserScopedSetting, DefaultSettingValue("false")]
         public Boolean XInverted
         {
-            get { return (Boolean) this["XInverted"]; }
+            get { return (Boolean)this["XInverted"]; }
             set { this["XInverted"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("false")]
         public Boolean YInverted
         {
-            get { return (Boolean) this["YInverted"]; }
+            get { return (Boolean)this["YInverted"]; }
             set { this["YInverted"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("false")]
         public Boolean Activate
         {
-            get { return (Boolean) this["Activate"]; }
+            get { return (Boolean)this["Activate"]; }
             set { this["Activate"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("false")]
         public Boolean Minimise
         {
-            get { return (Boolean) this["Minimise"]; }
+            get { return (Boolean)this["Minimise"]; }
             set { this["Minimise"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("false")]
         public Boolean AutoStart
         {
-            get { return (Boolean) this["AutoStart"]; }
+            get { return (Boolean)this["AutoStart"]; }
             set { this["AutoStart"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("5")]
         public Int32 MouseX
         {
-            get { return (Int32) this["MouseX"]; }
+            get { return (Int32)this["MouseX"]; }
             set { this["MouseX"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("5")]
         public Int32 MouseY
         {
-            get { return (Int32) this["MouseY"]; }
+            get { return (Int32)this["MouseY"]; }
             set { this["MouseY"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("25")]
         public Int32 Threshold
         {
-            get { return (Int32) this["Threshold"]; }
+            get { return (Int32)this["Threshold"]; }
             set { this["Threshold"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("0")]
         public Int32 Pad
         {
-            get { return (Int32) this["Pad"]; }
+            get { return (Int32)this["Pad"]; }
             set { this["Pad"] = value; }
         }
 
         [UserScopedSetting, DefaultSettingValue("Default")]
         public String Profile
         {
-            get { return (String) this["Profile"]; }
+            get { return (String)this["Profile"]; }
             set { this["Profile"] = value; }
         }
     }
