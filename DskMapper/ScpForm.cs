@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using DskMapper.Properties;
 using ScpControl;
+using ScpControl.ScpCore;
 using ScpControl.Utilities;
 
 namespace DskMapper

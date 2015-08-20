@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Configuration;
 
 using ScpControl;
+using ScpControl.ScpCore;
 using ScpControl.Utilities;
 
 namespace D3Mapper

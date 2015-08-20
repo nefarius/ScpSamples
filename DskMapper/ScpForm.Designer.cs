@@ -239,7 +239,7 @@
             // scpGps
             // 
             this.scpGps.Enabled = false;
-            this.scpGps.Pad = ScpControl.DsPadId.One;
+            this.scpGps.Pad = ScpControl.ScpCore.DsPadId.One;
             this.scpGps.Proxy = this.scpProxy;
             this.scpGps.ScaleX = 0;
             this.scpGps.ScaleY = 0;
